@@ -1,0 +1,4 @@
+python_freeipa
+python-ldap
+html2text
+PyYAML

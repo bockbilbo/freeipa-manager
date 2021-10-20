@@ -1,0 +1,96 @@
+# LDAP settings used to access Active Directory:
+#   - credentials: server information and user credentials to access AD
+#   - base: the AD base tree level containing the users to synchronize with FreeIPA
+
+ad_settings:
+  credentials:
+    proto: 'ldap://'
+    host: 'XX.XX.XX.XX'
+    port: 389
+    username: 'ldap_username'
+    password: 'ldap_password'
+  base: 'OU=Domain Users,DC=subdomain,DC=domain,DC=tld'
+
+
+# FreeIPA settings:
+#   - credentials: server host and credentials to access FreeIPA with admin rights
+#   - gids: FreeIPA groups and IDs users should belong to
+
+freeipa_settings:
+  credentials:
+    host: 'freeipa.domain.tld'
+    username: 'freeipa_username'
+    password: 'freeipa_password'
+  gids:
+    user_group_1: 000000001
+    user_group_2: 000000002
+    user_group_3: 000000003
+    user_group_4: 000000004
+
+
+# Synchronization settings:
+#   - corporate_email_domains: email domains of AD users to filter during AD database lookup
+#   - valid_sync_email_domains: email domains of AD users to be synchronized with FreeIPA (might be a subset of the corporate_email_domains list)
+#   - ignore_keys_on_sync: LDAP user fields to ignore during FreeIPA and AD user synchronization
+
+sync_settings:
+  corporate_email_domains:
+    - 'mycompany.com'
+    - 'mybrandname.com'
+  valid_sync_email_domains:
+    - 'mycompany.com'
+  ignore_keys_on_sync:
+    - 'member_of'
+    - 'cn'
+    - 'alias'
+
+
+# Notification settings:
+#   - smtp_relay_server: hostname of the SMTP relay server to be used for email notifications (not using server auth)
+#   - from_email: sender name and email address for email notifications
+#   - password_gracious_period: gracious period in days before fully disabling users after expiration
+#   - notification_days: days before password expiration when users should receive expiration reminders
+#   - templates: template files used for notifications located inside the templates/ directory within the app path
+
+notification_settings:
+  smtp_relay_server: 'smtp_relay_server_ip_or_hostname'
+  from_email: 'Sender Name <noreply@domain.tld>'
+  password_gracious_period: 14
+  notification_days: [14, 7, 3, 1]
+  templates:
+    company_logo: 'company_logo.png'
+    notify_expiration: 'notify_expiration.template'
+    report_expirations: 'report_expirations.template'
+    notify_passwd_reset: 'notify_passwd_reset.template'
+    notify_new_account: 'notify_new_account.template'
+    remind_passwd_reset: 'remind_passwd_reset.template'
+    report_terminated: 'report_terminated.template'
+    report_ad_updates: 'report_ad_updates.template'
+
+
+# Cache settings:
+#   - validity: cache validity time in minutes
+#   - files: cache file names to be stored inside the cache/ directory within the app path
+
+cache_settings:
+  validity: 60
+  files:
+    ad_cache: 'ad_users.json'
+    freeipa_cache: 'freeipa_users.json'
+    notification_history_cache: 'notification_history.json'
+    disabled_users_cache: 'disabled_users_cache.json'
+
+
+# Cache settings:
+#   - level: default logging level to be used by the app (read https://docs.python.org/3/library/logging.html#levels)
+#         50 = CRITICAL
+#         40 = ERROR
+#         30 = WARNING
+#         20 = INFO
+#         10 = DEBUG
+#         0 = NOTSET
+#   - file: log file name to be stored inside the root directory of the app path
+
+log_settings:
+  level: 30
+  file: 'application.log'
